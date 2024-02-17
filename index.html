@@ -46,11 +46,14 @@
                 .bindPopup(`<b>${alcaldia.nombre}</b><br>Población: ${alcaldia.poblacion}`);
         });
 
-        // Agregar rutas de vías ciclistas (si tienes los datos en formato GeoJSON)
-        // var viasCiclistasGeoJSON = ...; // Aquí cargarías los datos GeoJSON de las vías ciclistas
-
-        // L.geoJSON(viasCiclistasGeoJSON).addTo(map);
+        // Cargar y agregar la capa de rutas desde el archivo GeoJSON
+        fetch('rutas.json')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data).addTo(map);
+            });
 
     </script>
 </body>
 </html>
+
