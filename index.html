@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabogeek - Mapa de la Ciudad de México</title>
+    <!-- Enlaces a las librerías de Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Estilo personalizado para el mapa -->
+    <style>
+        #map {
+            height: 80vh; /* Altura del mapa */
+            width: 80%; /* Ancho del mapa */
+            margin: 0 auto; /* Centrar el mapa horizontalmente */
+            margin-top: 50px; /* Espacio superior para el título */
+        }
+
+        h1 {
+            text-align: center; /* Centrar el título horizontalmente */
+        }
+    </style>
+</head>
+<body>
+    <h1>Gabogeek - Mapa de la Ciudad de México</h1>
+    <div id="map"></div>
+
+    <script>
+        // Inicializar el mapa en una ubicación específica (Ciudad de México)
+        var map = L.map('map').setView([19.4326, -99.1332], 10);
+
+        // Agregar capa base de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Agregar marcadores de población por alcaldía (sólo un ejemplo)
+        var poblacionPorAlcaldia = [
+            { nombre: "Álvaro Obregón", poblacion: 759137, coordenadas: [19.3587, -99.2128] },
+            { nombre: "Coyoacán", poblacion: 628063, coordenadas: [19.3486, -99.1617] },
+            // Agrega más alcaldías con sus respectivas coordenadas y población aquí
+        ];
+
+        poblacionPorAlcaldia.forEach(function(alcaldia) {
+            L.marker(alcaldia.coordenadas).addTo(map)
+                .bindPopup(`<b>${alcaldia.nombre}</b><br>Población: ${alcaldia.poblacion}`);
+        });
+
+        // Agregar rutas de vías ciclistas (si tienes los datos en formato GeoJSON)
+        // var viasCiclistasGeoJSON = ...; // Aquí cargarías los datos GeoJSON de las vías ciclistas
+
+        // L.geoJSON(viasCiclistasGeoJSON).addTo(map);
+
+    </script>
+</body>
+</html>
