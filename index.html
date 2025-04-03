@@ -3,69 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabogeek - Mapa de la Ciudad de México</title>
-    <!-- Enlaces a las librerías de Leaflet -->
+    <title>Mapa de Estaciones del Metro CDMX</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- Estilo personalizado para el mapa -->
     <style>
-        #map {
-            height: 80vh; /* Altura del mapa */
-            width: 80%; /* Ancho del mapa */
-            margin: 0 auto; /* Centrar el mapa horizontalmente */
-            margin-top: 50px; /* Espacio superior para el título */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-
-        h1 {
-            text-align: center; /* Centrar el título horizontalmente */
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-     <!-- Link perfil Likedin -->
-    <a href="https://www.linkedin.com/in/gabriel-romero-b80907179/">
-    <img src="Linkedin.png" width="30">
-</a>
-    <h1>Gabogeek - Mapa de la Ciudad de México</h1>
 
-   
+    <header>
+        <h1>Mapa de las Estaciones del Metro CDMX</h1>
+        <p>Un mapa interactivo que muestra las ubicaciones de las estaciones del Sistema de Transporte Colectivo (Metro) en la Ciudad de México.</p>
+    </header>
+
+    <div class="content">
+        <h2>Acerca de este mapa</h2>
+        <p>Este mapa utiliza la librería <strong>Leaflet</strong> para mostrar un mapa interactivo de las estaciones del metro en la Ciudad de México. Puedes hacer clic sobre cada marcador para ver el nombre de la estación y explorar el sistema de transporte de la ciudad.</p>
+        <p>Las estaciones están representadas como puntos en el mapa, y puedes acercar o alejar el mapa para obtener una mejor vista.</p>
+
+        <!-- Aquí es donde se mostrará el mapa -->
+        <div id="map"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025. Todos los derechos reservados.</p>
+    </footer>
 
     <script>
-        // Inicializar el mapa en una ubicación específica (Ciudad de México)
-        var map = L.map('map').setView([19.4326, -99.1332], 10);
+        // Crear el mapa
+        var map = L.map('map').setView([19.4326, -99.1332], 12); // Coordenadas de CDMX
 
-        // Agregar capa base de OpenStreetMap
+        // Agregar capa base (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Agregar marcadores de población por alcaldía (sólo un ejemplo)
-        var poblacionPorAlcaldia = [
-            { nombre: "Álvaro Obregón", poblacion: 759137, coordenadas: [19.3587, -99.2128] },
-            { nombre: "Coyoacán", poblacion: 628063, coordenadas: [19.3486, -99.1617] },
-            // Agrega más alcaldías con sus respectivas coordenadas y población aquí
+        // Datos de las estaciones del metro de la CDMX (Ejemplo con algunas estaciones)
+        var estacionesMetro = [
+            { "nombre": "Pino Suarez", "lat": 19.4344, "lng": -99.1358 },
+            { "nombre": "Bellas Artes", "lat": 19.4369, "lng": -99.1444 },
+            { "nombre": "Zócalo/Tenochtitlan", "lat": 19.4331, "lng": -99.1314 },
+            { "nombre": "Chabacano", "lat": 19.3581, "lng": -99.1635 },
+            { "nombre": "Pantitlán", "lat": 19.4169, "lng": -99.0703 }
         ];
 
-        poblacionPorAlcaldia.forEach(function(alcaldia) {
-            L.marker(alcaldia.coordenadas).addTo(map)
-                .bindPopup(`<b>${alcaldia.nombre}</b><br>Población: ${alcaldia.poblacion}`);
+        // Agregar marcadores para las estaciones
+        estacionesMetro.forEach(function(estacion) {
+            L.marker([estacion.lat, estacion.lng])
+                .addTo(map)
+                .bindPopup("<b>" + estacion.nombre + "</b>");
         });
-
-        // Cargar y agregar la capa de rutas desde el archivo GeoJSON
-        fetch('rutas.json')
-            .then(response => response.json())
-            .then(data => {
-                L.geoJSON(data).addTo(map);
-            });
-
     </script>
-
     
-    <!-- Video -->
-<video width="500" controls>
-    <source src="https://www.mapbox.com/bites/00188/patricia_nasa.webm" type="video/webm">
-    <source src="https://www.mapbox.com/bites/00188/patricia_nasa.mp4" type="video/mp4">
-</video>
 </body>
 </html>
-
